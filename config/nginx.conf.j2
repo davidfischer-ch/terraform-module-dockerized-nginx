@@ -1,0 +1,93 @@
+{% for module in modules|sort %}
+load_module modules/{{ module }}.so;
+{% endfor %}
+
+{% if geoip_blocking_enabled %}
+load_module modules/ngx_http_geoip2_module.so;
+load_module modules/ngx_stream_geoip2_module.so;
+{% endif %}
+
+user nginx;
+worker_processes {{ worker_processes|ifelse(worker_processes, 'auto') }};
+pid /var/run/nginx.pid;
+
+events {
+    worker_connections {{ worker_connections|int }};
+    # multi_accept on;
+}
+
+http {
+
+    ##
+    # Basic Settings
+    ##
+
+    sendfile on;
+    tcp_nopush on;
+    tcp_nodelay on;
+    keepalive_timeout {{ keepalive_timeout|int }};
+    types_hash_max_size {{ types_hash_max_size|int }};
+    server_tokens off;  # do not return Nginx version
+
+    # server_names_hash_bucket_size 64;
+    # server_name_in_redirect off;
+
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+
+    ##
+    # Logging Settings
+    ##
+
+    access_log /var/log/nginx/access.log combined;
+    error_log  /var/log/nginx/error.log  {{ error_log_level }};
+
+    # https://docs.nginx.com/nginx/admin-guide/monitoring/logging/#enabling-conditional-logging
+    map $status $condition {
+        ~^[23] 0;
+        default 1;
+    }
+
+    ##
+    # Gzip Settings
+    ##
+
+    gzip on;
+    gzip_buffers 16 8k;
+    gzip_comp_level 6;
+    gzip_disable "msie6";
+    gzip_http_version 1.1;
+    gzip_min_length 100;
+    gzip_proxied any;
+    gzip_types text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript application/javascript text/x-js;
+    gzip_vary on;
+
+    ##
+    # Virtual Host Configs
+    ##
+
+    include /etc/nginx/conf.d/*.conf;
+    include /etc/nginx/sites-enabled/*;
+}
+
+
+#mail {
+#   # See sample authentication script at:
+#   # http://wiki.nginx.org/ImapAuthenticateWithApachePhpScript
+#
+#   # auth_http localhost/auth.php;
+#   # pop3_capabilities "TOP" "USER";
+#   # imap_capabilities "IMAP4rev1" "UIDPLUS";
+#
+#   server {
+#       listen     localhost:110;
+#       protocol   pop3;
+#       proxy      on;
+#   }
+#
+#   server {
+#       listen     localhost:143;
+#       protocol   imap;
+#       proxy      on;
+#   }
+#}

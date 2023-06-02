@@ -1,0 +1,38 @@
+{% if ips_blacklist %}
+######################################################
+## Block spammers and other unwanted visitors by IP ##
+######################################################
+{% for ip in ips_blacklist %}
+deny {{ ip }};
+{% endfor %}
+{% endif %}
+
+{% if geoip_blocking_enabled %}
+###################################################################
+## Block spammers and other unwanter visitors by geolocation     ##
+## Reference: https://github.com/leev/ngx_http_geoip2_module     ##
+###################################################################
+## Extra: https://stackoverflow.com/questions/64071451
+
+geoip2 {{ geoip_database_directory }}/GeoLite2-Country/GeoLite2-Country.mmdb {
+    auto_reload 5m;
+    $geoip2_metadata_country_build metadata build_epoch;
+
+    $geoip2_data_country_code country iso_code;
+    $geoip2_data_country_name country names en;
+}
+
+geoip2 {{ geoip_database_directory }}/GeoLite2-City/GeoLite2-City.mmdb {
+    $geoip2_data_city_name city names en;
+}
+
+map $geoip2_data_country_code $allow_visit {
+    default {{ geoip_blocking_default }};
+    {%- for country in geoip_countries_blacklist %}
+    {{ country }} block;
+    {%- endfor %}
+    {%- for country in geoip_countries_whitelist %}
+    {{ country }} allow;
+    {%- endfor %}
+}
+{% endif %}
