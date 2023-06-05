@@ -6,3 +6,4 @@ Manage Nginx server and virtual hosts.
 
 - https://hub.docker.com/_/nginx
 - https://linuxhint.com/what-are-worker-connections-nginx/
+- https://github.com/davidfischer-ch/ansible-role-nginx
