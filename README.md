@@ -1,4 +1,4 @@
-# Nginx Terraform Module
+# Nginx Terraform Module (Dockerized)
 
 Manage Nginx server and virtual hosts
 
