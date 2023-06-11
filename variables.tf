@@ -95,7 +95,8 @@ variable "geoip_countries_whitelist" {
 }
 
 variable "geoip_database_directory" {
-  type = string
+  type    = string
+  default = null
 }
 
 variable "ips_blacklist" {

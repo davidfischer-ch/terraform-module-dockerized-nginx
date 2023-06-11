@@ -6,6 +6,13 @@ data "jinja_template" "main_config" {
     type = "json"
     data = jsonencode(local.forced_context)
   }
+
+  lifecycle {
+    precondition {
+      condition     = !var.geoip_blocking_enabled || var.geoip_database_directory != null
+      error_message = "GeoIP database directory must be defined when enabled."
+    }
+  }
 }
 
 resource "local_file" "main_config" {
