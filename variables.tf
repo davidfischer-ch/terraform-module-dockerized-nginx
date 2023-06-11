@@ -55,6 +55,10 @@ variable "worker_processes" {
 
 # Networking
 
+variable "network_id" {
+  type = string
+}
+
 variable "https_port" {
   type    = number
   default = 443
@@ -105,10 +109,6 @@ variable "ips_blacklist" {
 }
 
 # Sites
-
-variable "main_domain" {
-  type = string
-}
 
 variable "sites" {
   # TODO type =

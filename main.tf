@@ -1,8 +1,3 @@
-/* resource "docker_network" "nginx" {
-  name     = var.identifier
-  internal = false
-} */
-
 resource "docker_container" "server" {
 
   depends_on = [
@@ -28,11 +23,11 @@ resource "docker_container" "server" {
 
   # shm_size = 256 # MB
 
-  hostname = var.main_domain
+  hostname = var.identifier
 
-  /* networks_advanced {
-    name = docker_network.nginx.name
-  } */
+  networks_advanced {
+    name = var.network_id
+  }
 
   env = [
     #"GITLAB_LOG_LEVEL=${var.log_level}",
