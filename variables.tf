@@ -17,11 +17,11 @@ variable "data_directory" {
 
 variable "extra_volumes" {
   type = list(object({
-    container_path = string
-    from_container = string
-    host_path      = string
-    read_only      = bool
-    volume_name    = string
+    container_path = optional(string)
+    from_container = optional(string)
+    host_path      = optional(string)
+    read_only      = optional(bool)
+    volume_name    = optional(string)
   }))
   default = []
 }

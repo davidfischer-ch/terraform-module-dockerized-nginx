@@ -104,11 +104,11 @@ resource "docker_container" "server" {
   dynamic "volumes" {
     for_each = var.extra_volumes
     content {
-      container_path = volumes.container_path
-      from_container = volumes.from_container
-      host_path      = volumes.host_path
-      read_only      = volumes.read_only
-      volume_name    = volumes.volume_name
+      container_path = try(volumes.value.container_path, null)
+      from_container = try(volumes.value.from_container, null)
+      host_path      = try(volumes.value.host_path, null)
+      read_only      = try(volumes.value.read_only, null)
+      volume_name    = try(volumes.value.volume_name, null)
     }
   }
 }
