@@ -98,4 +98,17 @@ resource "docker_container" "server" {
     host_path      = var.geoip_database_directory
     read_only      = true
   }
+
+  # Extra
+
+  dynamic "volumes" {
+    for_each = var.extra_volumes
+    content {
+      container_path = volumes.container_path
+      from_container = volumes.from_container
+      host_path      = volumes.host_path
+      read_only      = volumes.read_only
+      volume_name    = volumes.volume_name
+    }
+  }
 }

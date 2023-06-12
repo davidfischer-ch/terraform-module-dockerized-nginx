@@ -15,6 +15,17 @@ variable "data_directory" {
   type = string
 }
 
+variable "extra_volumes" {
+  type = list(object({
+    container_path = string
+    from_container = string
+    host_path      = string
+    read_only      = bool
+    volume_name    = string
+  }))
+  default = []
+}
+
 # Logging
 
 variable "error_log_level" {
