@@ -49,44 +49,44 @@ resource "docker_container" "server" {
   }
 
   volumes {
-    container_path = "/etc/nginx/nginx.conf"
+    container_path = "${local.container_config_directory}/nginx.conf"
     host_path      = local_file.main_config.filename
     read_only      = true
   }
 
   volumes {
-    container_path = "/etc/nginx/conf.d"
-    host_path      = "${local.config_directory}/conf.d"
+    container_path = "${local.container_config_directory}/conf.d"
+    host_path      = "${local.host_config_directory}/conf.d"
     read_only      = true
   }
 
   volumes {
-    container_path = "/etc/nginx/sites-enabled"
-    host_path      = "${local.config_directory}/sites-enabled"
+    container_path = "${local.container_config_directory}/sites-enabled"
+    host_path      = "${local.host_config_directory}/sites-enabled"
     read_only      = true
   }
 
   volumes {
-    container_path = "/etc/nginx/sites-dhparam"
-    host_path      = "${local.config_directory}/sites-dhparam"
+    container_path = "${local.container_config_directory}/sites-dhparam"
+    host_path      = "${local.host_config_directory}/sites-dhparam"
     read_only      = true
   }
 
   volumes {
-    container_path = "/etc/nginx/sites-ssl"
-    host_path      = "${local.config_directory}/sites-ssl"
+    container_path = "${local.container_config_directory}/sites-ssl"
+    host_path      = "${local.host_config_directory}/sites-ssl"
     read_only      = true
   }
 
   volumes {
-    container_path = "/var/log/nginx"
-    host_path      = local.logs_directory
+    container_path = local.container_logs_directory
+    host_path      = local.host_logs_directory
     read_only      = false
   }
 
   volumes {
-    container_path = "/var/cache/nginx"
-    host_path      = "${var.data_directory}/${var.identifier}/cache"
+    container_path = local.container_cache_directory
+    host_path      = local.host_cache_directory
     read_only      = false
   }
 

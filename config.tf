@@ -16,7 +16,7 @@ data "jinja_template" "main_config" {
 }
 
 resource "local_file" "main_config" {
-  filename             = "${local.config_directory}/nginx.conf"
+  filename             = "${local.host_config_directory}/nginx.conf"
   content              = data.jinja_template.main_config.result
   file_permission      = "0644"
   directory_permission = "0755"
@@ -33,7 +33,7 @@ data "jinja_template" "security_config" {
 }
 
 resource "local_file" "security_config" {
-  filename             = "${local.config_directory}/conf.d/security.conf"
+  filename             = "${local.host_config_directory}/conf.d/security.conf"
   content              = data.jinja_template.security_config.result
   file_permission      = "0644"
   directory_permission = "0755"

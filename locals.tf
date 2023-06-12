@@ -1,6 +1,11 @@
 locals {
-  config_directory = "${var.data_directory}/${var.identifier}/config"
-  logs_directory   = "${var.data_directory}/${var.identifier}/logs"
+  container_cache_directory  = "/var/cache/nginx"
+  container_config_directory = "/etc/nginx"
+  container_logs_directory   = "/var/log/nginx"
+
+  host_cache_directory  = "${var.data_directory}/cache"
+  host_config_directory = "${var.data_directory}/config"
+  host_logs_directory   = "${var.data_directory}/logs"
 
   forced_context = {
     error_log_level           = var.error_log_level
