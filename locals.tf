@@ -20,6 +20,7 @@ locals {
     https_internal_port       = 443
     ips_blacklist             = var.ips_blacklist
     keepalive_timeout         = var.keepalive_timeout
+    modules                   = var.modules
     types_hash_max_size       = var.types_hash_max_size
     worker_connections        = var.worker_connections
     worker_processes          = var.worker_processes

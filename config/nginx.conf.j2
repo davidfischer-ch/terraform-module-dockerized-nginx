@@ -1,4 +1,4 @@
-{% for module in modules|sort %}
+{% for module in modules %}
 load_module modules/{{ module }}.so;
 {% endfor %}
 
