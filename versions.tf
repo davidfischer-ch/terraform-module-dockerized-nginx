@@ -4,12 +4,12 @@ terraform {
   required_providers {
     docker = {
       source  = "kreuzwerker/docker"
-      version = ">= 2.23.0"
+      version = ">= 3.0.2"
     }
 
     jinja = {
       source  = "NikolaLohinski/jinja"
-      version = ">= 1.15.0"
+      version = ">= 1.17.0"
     }
 
     local = {
@@ -19,7 +19,7 @@ terraform {
 
     null = {
       source  = "hashicorp/null"
-      version = ">= 3.2.1"
+      version = ">= 3.2.2"
     }
   }
 }
