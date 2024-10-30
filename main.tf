@@ -23,16 +23,21 @@ resource "docker_container" "server" {
 
   # shm_size = 256 # MB
 
+  env = []
+
+  dynamic "host" {
+    for_each = var.hosts
+    content {
+      host = host.key
+      ip   = host.value
+    }
+  }
+
   hostname = var.identifier
 
   networks_advanced {
     name = var.network_id
   }
-
-  env = [
-    #"GITLAB_LOG_LEVEL=${var.log_level}",
-    #"GITLAB_OMNIBUS_CONFIG=${join("\n", local.config)}"
-  ]
 
   ports {
     internal = "80"

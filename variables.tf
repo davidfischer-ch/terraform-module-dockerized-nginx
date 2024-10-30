@@ -33,7 +33,7 @@ variable "extra_volumes" {
   default = []
 }
 
-# Logging
+# Logging ------------------------------------------------------------------------------------------
 
 variable "error_log_level" {
   type    = string
@@ -41,7 +41,7 @@ variable "error_log_level" {
   # TODO check if ...
 }
 
-# Miscellaneous
+# Miscellaneous ------------------------------------------------------------------------------------
 
 variable "modules" {
   type        = list(string)
@@ -71,7 +71,13 @@ variable "worker_processes" {
   default = 0
 }
 
-# Networking
+# Networking ---------------------------------------------------------------------------------------
+
+variable "hosts" {
+  type        = map(string)
+  default     = {}
+  description = "Add entries to container hosts file."
+}
 
 variable "network_id" {
   type        = string
@@ -90,7 +96,7 @@ variable "http_port" {
   description = "Bind the reverse proxy's HTTP port."
 }
 
-# Security
+# Security -----------------------------------------------------------------------------------------
 
 variable "dhparam_bits" {
   type    = number
