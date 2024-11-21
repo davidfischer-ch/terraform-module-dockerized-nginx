@@ -53,42 +53,49 @@ resource "docker_container" "server" {
     protocol = "tcp"
   }
 
+  # Config owner root:root
   volumes {
     container_path = "${local.container_config_directory}/nginx.conf"
     host_path      = local_file.main_config.filename
     read_only      = true
   }
 
+  # Config owner root:root
   volumes {
     container_path = "${local.container_config_directory}/conf.d"
     host_path      = "${local.host_config_directory}/conf.d"
     read_only      = true
   }
 
+  # Config owner root:root
   volumes {
     container_path = "${local.container_config_directory}/sites-enabled"
     host_path      = "${local.host_config_directory}/sites-enabled"
     read_only      = true
   }
 
+  # Config owner root:root
   volumes {
     container_path = "${local.container_config_directory}/sites-dhparam"
     host_path      = "${local.host_config_directory}/sites-dhparam"
     read_only      = true
   }
 
+  # Config owner root:root
   volumes {
     container_path = "${local.container_config_directory}/sites-ssl"
     host_path      = "${local.host_config_directory}/sites-ssl"
     read_only      = true
   }
 
+  # Logs owner root:root
   volumes {
     container_path = local.container_logs_directory
     host_path      = local.host_logs_directory
     read_only      = false
   }
 
+  # Cache owner root:root
   volumes {
     container_path = local.container_cache_directory
     host_path      = local.host_cache_directory
@@ -98,6 +105,7 @@ resource "docker_container" "server" {
   # GeoIP
 
   # TODO make it optional
+  # GeoIP owner root:root
   volumes {
     container_path = local.forced_context.geoip_database_directory
     host_path      = var.geoip_database_directory
@@ -106,6 +114,7 @@ resource "docker_container" "server" {
 
   # Extra
 
+  # Extra owner root:root
   dynamic "volumes" {
     for_each = var.extra_volumes
     content {
