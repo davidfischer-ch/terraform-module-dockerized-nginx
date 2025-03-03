@@ -39,6 +39,8 @@ resource "docker_container" "server" {
     name = var.network_id
   }
 
+  network_mode = "bridge"
+
   ports {
     internal = "80"
     external = var.http_port
