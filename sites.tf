@@ -21,11 +21,12 @@ resource "null_resource" "sites_dhparam" {
   for_each = var.sites
 
   provisioner "local-exec" {
-    command = join(" ", [
-      "mkdir -p ${local.host_config_directory}/sites-dhparam/ && openssl dhparam",
+    command = join(" ", compact([
+      "mkdir -p ${local.host_config_directory}/sites-dhparam/ &&",
+      "openssl dhparam", var.dhparam_use_dsa ? "-dsaparam" : "",
       "-out ${local.host_config_directory}/sites-dhparam/${each.value.name}.pem",
       var.dhparam_bits
-    ])
+    ]))
   }
 }
 

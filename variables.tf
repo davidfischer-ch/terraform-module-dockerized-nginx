@@ -110,6 +110,17 @@ variable "dhparam_bits" {
   # validate >= 2048
 }
 
+variable "dhparam_use_dsa" {
+  type        = bool
+  default     = false
+  description = <<EOT
+    Use DSA (converted to DH) instead of "pure" DH params (DH by default).
+    Much faster to generate but using "weaker" prime numbers.
+
+    See https://docs.openssl.org/3.4/man1/openssl-dhparam/#options
+  EOT
+}
+
 variable "geoip_blocking_enabled" {
   type    = bool
   default = false
