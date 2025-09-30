@@ -9,6 +9,7 @@ resource "docker_container" "server" {
       local_file.main_config,
       local_file.security_config,
       local_file.sites_config,
+      local_sensitive_file.sites_htpasswd,
       null_resource.sites_dhparam
     ]
   }
@@ -66,6 +67,13 @@ resource "docker_container" "server" {
   volumes {
     container_path = "${local.container_config_directory}/conf.d"
     host_path      = "${local.host_config_directory}/conf.d"
+    read_only      = true
+  }
+
+  # Config owner root:root
+  volumes {
+    container_path = "${local.container_config_directory}/sites-auth"
+    host_path      = "${local.host_config_directory}/sites-auth"
     read_only      = true
   }
 
