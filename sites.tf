@@ -35,7 +35,7 @@ resource "local_sensitive_file" "sites_htpasswd" {
 
   filename             = "${local.host_config_directory}/sites-auth/${each.value.name}.htpasswd"
   content              = try(each.value.htpasswd, "")
-  file_permission      = "0440"
+  file_permission      = "0444"
   directory_permission = "0755"
 }
 
