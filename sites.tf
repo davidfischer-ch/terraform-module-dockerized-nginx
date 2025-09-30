@@ -30,6 +30,15 @@ resource "null_resource" "sites_dhparam" {
   }
 }
 
+resource "local_sensitive_file" "sites_htpasswd" {
+  for_each = var.sites
+
+  filename             = "${local.host_config_directory}/sites-auth/${each.value.name}.htpasswd"
+  content              = try(each.value.htpasswd, "")
+  file_permission      = "0440"
+  directory_permission = "0755"
+}
+
 resource "local_file" "sites_logs_touch" {
   for_each = var.sites
 
