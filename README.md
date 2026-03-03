@@ -31,7 +31,7 @@ module "reverse_proxy" {
 
   # Networking
 
-  hosts      = module.fisch3r_net.lan_hosts
+  hosts      = { "myserver" = "10.0.0.1" }
   network_id = docker_network.app.id
   https_port = 443
   http_port  = 80
