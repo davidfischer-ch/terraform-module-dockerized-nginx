@@ -12,6 +12,8 @@ Manage Nginx reverse proxy and virtual hosts.
 
 ## Usage
 
+See [examples/default](examples/default) for a complete working configuration.
+
 ```hcl
 module "reverse_proxy" {
   source = "git::https://github.com/davidfischer-ch/terraform-module-dockerized-nginx.git?ref=1.0.2"
