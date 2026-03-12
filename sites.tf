@@ -53,7 +53,7 @@ resource "local_sensitive_file" "sites_ssl_crt" {
 
   filename             = "${local.host_config_directory}/sites-ssl/${each.value.name}.crt"
   content              = each.value.ssl_crt
-  file_permission      = "0440"
+  file_permission      = "0600"
   directory_permission = "0755"
 }
 
@@ -62,6 +62,6 @@ resource "local_sensitive_file" "sites_ssl_key" {
 
   filename             = "${local.host_config_directory}/sites-ssl/${each.value.name}.key"
   content              = each.value.ssl_key
-  file_permission      = "0440"
+  file_permission      = "0600"
   directory_permission = "0755"
 }

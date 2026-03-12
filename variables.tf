@@ -23,6 +23,52 @@ variable "image_id" {
   description = "Nginx image's ID."
 }
 
+# Process ------------------------------------------------------------------------------------------
+
+variable "app_uid" {
+  type        = number
+  default     = 0
+  description = <<EOT
+    UID of the user running the container.
+    Defaults to root (0), required to bind ports 80/443.
+    Set to a non-root UID and add NET_BIND_SERVICE to cap_add to run as an unprivileged user.
+  EOT
+}
+
+variable "app_gid" {
+  type        = number
+  default     = 0
+  description = <<EOT
+    GID of the user running the container.
+    Defaults to root (0), required to bind ports 80/443.
+    Set to a non-root GID and add NET_BIND_SERVICE to cap_add to run as an unprivileged user.
+  EOT
+}
+
+variable "privileged" {
+  type        = bool
+  default     = false
+  description = "Run the container in privileged mode."
+}
+
+variable "cap_add" {
+  type        = set(string)
+  default     = []
+  description = <<EOT
+    Linux capabilities to add to the container.
+    Use ["NET_BIND_SERVICE"] together with a non-root app_uid/app_gid
+    to allow binding ports 80/443 without running as root.
+  EOT
+}
+
+variable "cap_drop" {
+  type        = set(string)
+  default     = []
+  description = "Linux capabilities to drop from the container."
+}
+
+# Storage ------------------------------------------------------------------------------------------
+
 variable "data_directory" {
   type        = string
   description = "Where data will be persisted (volumes will be mounted as sub-directories)."
