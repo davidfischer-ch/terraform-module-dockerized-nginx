@@ -85,6 +85,11 @@ data_directory/
 | `enabled` | `bool` | — | Start or stop the container. |
 | `wait` | `bool` | `false` | Wait for the container to reach a healthy state after creation. |
 | `image_id` | `string` | — | [Nginx](https://hub.docker.com/_/nginx/tags) Docker image's ID. |
+| `app_uid` | `number` | `0` | UID of the user running the container (default root). |
+| `app_gid` | `number` | `0` | GID of the user running the container (default root). |
+| `privileged` | `bool` | `false` | Run the container in privileged mode. |
+| `cap_add` | `set(string)` | `[]` | Linux capabilities to add (e.g. `["NET_BIND_SERVICE"]`). |
+| `cap_drop` | `set(string)` | `[]` | Linux capabilities to drop from the container. |
 | `data_directory` | `string` | — | Host path for persistent volumes. |
 | `extra_volumes` | `list(object)` | `[]` | Additional volume mounts. |
 | `error_log_level` | `string` | `"warn"` | Nginx error log level. |
@@ -106,6 +111,21 @@ data_directory/
 | `geoip_database_directory` | `string` | `null` | Host path to GeoIP MaxMind databases. |
 | `ips_blacklist` | `list(string)` | `[]` | IP addresses to block. |
 | `sites` | — | — | Virtual host configurations (site-specific Jinja templates). |
+
+## Running as non-root
+
+By default the container runs as root (UID/GID 0), which is required to bind ports 80 and 443.
+To run as an unprivileged user, set `app_uid` / `app_gid` to a non-root value and grant the
+`NET_BIND_SERVICE` capability so Nginx can still bind privileged ports:
+
+```hcl
+module "reverse_proxy" {
+  # ...
+  app_uid = 1000
+  app_gid = 1000
+  cap_add = ["NET_BIND_SERVICE"]
+}
+```
 
 ## Requirements
 
