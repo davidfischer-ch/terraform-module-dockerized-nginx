@@ -30,7 +30,7 @@ resource "docker_network" "app" {
 }
 
 module "reverse_proxy" {
-  source = "git::https://github.com/davidfischer-ch/terraform-module-dockerized-nginx.git?ref=1.1.0"
+  source = "git::https://github.com/davidfischer-ch/terraform-module-dockerized-nginx.git?ref=1.1.2"
 
   identifier     = "my-app-reverse-proxy"
   enabled        = true
