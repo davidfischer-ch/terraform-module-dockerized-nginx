@@ -1,5 +1,11 @@
 # Changelog
 
+## Release v1.1.2 (2026-03-13)
+
+### Fix and enhancements
+
+* Set `NGINX_PID_FILE` env var (`/var/run/nginx.pid` for root, `/tmp/nginx.pid` for non-root)
+
 ## Release v1.1.1 (2026-03-13)
 
 ### Fix and enhancements
