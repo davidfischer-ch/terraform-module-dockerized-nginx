@@ -19,28 +19,13 @@ module "reverse_proxy" {
   source = "git::https://github.com/davidfischer-ch/terraform-module-dockerized-nginx.git?ref=1.1.0"
 
   identifier     = "my-app-reverse-proxy"
-  enabled        = true
   image_id       = docker_image.nginx.image_id
   data_directory = "/data/my-app/reverse-proxy"
-
-  # Logging
-
-  error_log_level = "warn"
-
-  # Miscellaneous
-
-  modules = []
 
   # Networking
 
   hosts      = { "myserver" = "10.0.0.1" }
   network_id = docker_network.app.id
-  https_port = 443
-  http_port  = 80
-
-  # Security
-
-  dhparam_use_dsa = false
 
   # Sites
 

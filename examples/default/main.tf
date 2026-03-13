@@ -33,13 +33,10 @@ module "reverse_proxy" {
   source = "git::https://github.com/davidfischer-ch/terraform-module-dockerized-nginx.git?ref=1.1.2"
 
   identifier     = "my-app-reverse-proxy"
-  enabled        = true
   image_id       = docker_image.nginx.image_id
   data_directory = "/data/my-app/reverse-proxy"
 
   network_id = docker_network.app.id
-  https_port = 443
-  http_port  = 80
 
   sites = {
     app = {
