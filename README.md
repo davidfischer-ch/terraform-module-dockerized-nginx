@@ -91,7 +91,7 @@ data_directory/
 | `cap_add` | `set(string)` | `[]` | Linux capabilities to add (e.g. `["NET_BIND_SERVICE"]`). |
 | `cap_drop` | `set(string)` | `[]` | Linux capabilities to drop from the container. |
 | `data_directory` | `string` | — | Host path for persistent volumes. |
-| `extra_volumes` | `list(object)` | `[]` | Additional volume mounts. |
+| `extra_volumes` | `map(object)` | `{}` | Extra volumes to mount in the container. |
 | `error_log_level` | `string` | `"warn"` | Nginx error log level. |
 | `modules` | `list(string)` | `[]` | Nginx modules to enable. |
 | `keepalive_timeout` | `number` | `75` | HTTP keepalive timeout. |
