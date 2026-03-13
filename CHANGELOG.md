@@ -1,5 +1,12 @@
 # Changelog
 
+## Release v1.1.1 (2026-03-13)
+
+### Fix and enhancements
+
+* Fix non-root operation: skip `user nginx;` directive and use `/tmp/nginx.pid` when
+  running as a non-root user to avoid a fatal Permission denied error on startup
+
 ## Release v1.1.0 (2026-03-13)
 
 ### Minor compatibility breaks
