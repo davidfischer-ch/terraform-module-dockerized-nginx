@@ -8,6 +8,7 @@ locals {
   host_logs_directory   = "${var.data_directory}/logs"
 
   forced_context = {
+    app_uid                   = var.app_uid
     error_log_level           = var.error_log_level
     geoip_blocking_default    = var.geoip_blocking_default
     geoip_blocking_enabled    = var.geoip_blocking_enabled
