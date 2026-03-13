@@ -2,6 +2,11 @@
 
 ## Release v1.1.0 (2026-03-13)
 
+### Minor compatibility breaks
+
+* SSL certificate and key files under `sites-ssl/` changed permissions from `0440`
+  to `0600` — existing deployments will see these files recreated on next apply
+
 ### Fix and enhancements
 
 * Add `# Process` section: `app_uid`, `app_gid`, `privileged`, `cap_add`, `cap_drop`
