@@ -36,7 +36,7 @@ resource "docker_container" "server" {
 
   # shm_size = 256 # MB
 
-  env = []
+  env = ["NGINX_PID_FILE=${var.app_uid == 0 ? "/var/run/nginx.pid" : "/tmp/nginx.pid"}"]
 
   dynamic "host" {
     for_each = var.hosts
