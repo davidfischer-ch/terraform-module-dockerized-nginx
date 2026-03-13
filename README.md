@@ -73,8 +73,8 @@ data_directory/
 | `app_uid` | `number` | `0` | UID of the user running the container (default root). |
 | `app_gid` | `number` | `0` | GID of the user running the container (default root). |
 | `privileged` | `bool` | `false` | Run the container in privileged mode. |
-| `cap_add` | `set(string)` | `[]` | Linux capabilities to add (e.g. `["NET_BIND_SERVICE"]`). |
-| `cap_drop` | `set(string)` | `[]` | Linux capabilities to drop from the container. |
+| `cap_add` | `set(string)` | `[]` | Linux capabilities to add (e.g. `["NET_BIND_SERVICE"]`). See [capabilities(7)](https://man7.org/linux/man-pages/man7/capabilities.7.html). |
+| `cap_drop` | `set(string)` | `[]` | Linux capabilities to drop from the container. See [capabilities(7)](https://man7.org/linux/man-pages/man7/capabilities.7.html). |
 | `data_directory` | `string` | — | Host path for persistent volumes. |
 | `extra_volumes` | `map(object)` | `{}` | Extra volumes to mount in the container. |
 | `error_log_level` | `string` | `"warn"` | Nginx error log level. |
