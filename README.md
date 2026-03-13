@@ -16,7 +16,7 @@ See [examples/default](examples/default) for a complete working configuration.
 
 ```hcl
 module "reverse_proxy" {
-  source = "git::https://github.com/davidfischer-ch/terraform-module-dockerized-nginx.git?ref=1.1.0"
+  source = "git::https://github.com/davidfischer-ch/terraform-module-dockerized-nginx.git?ref=1.1.3"
 
   identifier     = "my-app-reverse-proxy"
   image_id       = docker_image.nginx.image_id
