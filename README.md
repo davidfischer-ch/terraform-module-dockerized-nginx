@@ -18,14 +18,17 @@ See [examples/default](examples/default) for a complete working configuration.
 module "reverse_proxy" {
   source = "git::https://github.com/davidfischer-ch/terraform-module-dockerized-nginx.git?ref=1.2.0"
 
-  identifier     = "my-app-reverse-proxy"
-  image_id       = docker_image.nginx.image_id
-  data_directory = "/data/my-app/reverse-proxy"
+  identifier = "my-app-reverse-proxy"
+  image_id   = docker_image.nginx.image_id
 
   # Networking
 
   hosts      = { "myserver" = "10.0.0.1" }
   network_id = docker_network.app.id
+
+  # Storage
+
+  data_directory = "/data/my-app/reverse-proxy"
 
   # Sites
 
@@ -75,6 +78,10 @@ data_directory/
 | `privileged` | `bool` | `false` | Run the container in privileged mode. |
 | `cap_add` | `set(string)` | `[]` | Linux capabilities to add (e.g. `["NET_BIND_SERVICE"]`). See [capabilities(7)](https://man7.org/linux/man-pages/man7/capabilities.7.html). |
 | `cap_drop` | `set(string)` | `[]` | Linux capabilities to drop from the container. See [capabilities(7)](https://man7.org/linux/man-pages/man7/capabilities.7.html). |
+| `hosts` | `map(string)` | `{}` | Extra `/etc/hosts` entries for the container. |
+| `network_id` | `string` | — | Docker network to attach to. |
+| `https_port` | `number` | `443` | HTTPS bind port. |
+| `http_port` | `number` | `80` | HTTP bind port. |
 | `data_directory` | `string` | — | Host path for persistent volumes. |
 | `extra_volumes` | `map(object)` | `{}` | Extra volumes to mount in the container. |
 | `error_log_level` | `string` | `"warn"` | Nginx error log level. |
@@ -83,10 +90,6 @@ data_directory/
 | `types_hash_max_size` | `number` | `1024` | Types hash table size. |
 | `worker_connections` | `number` | `1024` | Worker connections limit. |
 | `worker_processes` | `number` | `0` | Worker processes (0 = auto). |
-| `hosts` | `map(string)` | `{}` | Extra `/etc/hosts` entries for the container. |
-| `network_id` | `string` | — | Docker network to attach to. |
-| `https_port` | `number` | `443` | HTTPS bind port. |
-| `http_port` | `number` | `80` | HTTP bind port. |
 | `dhparam_bits` | `number` | `4096` | DH parameter bits. |
 | `dhparam_use_dsa` | `bool` | `false` | Use DSA instead of DH params (faster but weaker). |
 | `geoip_blocking_enabled` | `bool` | `false` | Enable GeoIP-based access control. |

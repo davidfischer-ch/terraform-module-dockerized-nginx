@@ -32,11 +32,18 @@ resource "docker_network" "app" {
 module "reverse_proxy" {
   source = "git::https://github.com/davidfischer-ch/terraform-module-dockerized-nginx.git?ref=1.2.0"
 
-  identifier     = "my-app-reverse-proxy"
-  image_id       = docker_image.nginx.image_id
-  data_directory = "/data/my-app/reverse-proxy"
+  identifier = "my-app-reverse-proxy"
+  image_id   = docker_image.nginx.image_id
+
+  # Networking
 
   network_id = docker_network.app.id
+
+  # Storage
+
+  data_directory = "/data/my-app/reverse-proxy"
+
+  # Sites
 
   sites = {
     app = {

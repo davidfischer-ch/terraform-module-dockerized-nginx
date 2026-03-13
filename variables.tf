@@ -163,6 +163,41 @@ variable "cap_drop" {
   }
 }
 
+# Networking ---------------------------------------------------------------------------------------
+
+variable "hosts" {
+  type        = map(string)
+  description = "Add entries to container hosts file."
+  default     = {}
+}
+
+variable "network_id" {
+  type        = string
+  description = "Attach the containers to given network."
+}
+
+variable "https_port" {
+  type        = number
+  description = "Bind the reverse proxy's HTTPS port."
+  default     = 443
+
+  validation {
+    condition     = var.https_port >= 1 && var.https_port <= 65535
+    error_message = "Argument `https_port` must be between 1 and 65535."
+  }
+}
+
+variable "http_port" {
+  type        = number
+  description = "Bind the reverse proxy's HTTP port."
+  default     = 80
+
+  validation {
+    condition     = var.http_port >= 1 && var.http_port <= 65535
+    error_message = "Argument `http_port` must be between 1 and 65535."
+  }
+}
+
 # Storage ------------------------------------------------------------------------------------------
 
 variable "data_directory" {
@@ -247,41 +282,6 @@ variable "worker_processes" {
   }
 }
 
-# Networking ---------------------------------------------------------------------------------------
-
-variable "hosts" {
-  type        = map(string)
-  description = "Add entries to container hosts file."
-  default     = {}
-}
-
-variable "network_id" {
-  type        = string
-  description = "Attach the containers to given network."
-}
-
-variable "https_port" {
-  type        = number
-  description = "Bind the reverse proxy's HTTPS port."
-  default     = 443
-
-  validation {
-    condition     = var.https_port >= 1 && var.https_port <= 65535
-    error_message = "Argument `https_port` must be between 1 and 65535."
-  }
-}
-
-variable "http_port" {
-  type        = number
-  description = "Bind the reverse proxy's HTTP port."
-  default     = 80
-
-  validation {
-    condition     = var.http_port >= 1 && var.http_port <= 65535
-    error_message = "Argument `http_port` must be between 1 and 65535."
-  }
-}
-
 # Security -----------------------------------------------------------------------------------------
 
 variable "dhparam_bits" {
@@ -347,7 +347,7 @@ variable "ips_blacklist" {
   default     = []
 }
 
-# Sites
+# Sites -------------------------------------------------------------------------------------------
 
 variable "sites" {
   description = "Map of Nginx virtual host configurations."
