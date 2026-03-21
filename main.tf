@@ -1,7 +1,8 @@
 resource "docker_container" "server" {
 
   depends_on = [
-    local_file.sites_logs_touch
+    local_file.sites_logs_touch,
+    terraform_data.data_directories
   ]
 
   lifecycle {
