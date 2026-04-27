@@ -1,3 +1,8 @@
+# DNS resolver for OCSP stapling and any runtime upstream DNS lookups.
+# IPv6 disabled - nginx hangs on AAAA lookups when IPv6 isn't routable.
+resolver 1.1.1.1 8.8.8.8 valid=300s ipv6={{ 'on' if resolver_ipv6 else 'off' }};
+resolver_timeout 5s;
+
 {% if ips_blacklist %}
 ######################################################
 ## Block spammers and other unwanted visitors by IP ##

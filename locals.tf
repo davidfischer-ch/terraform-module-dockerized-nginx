@@ -22,6 +22,7 @@ locals {
     ips_blacklist             = var.ips_blacklist
     keepalive_timeout         = var.keepalive_timeout
     modules                   = var.modules
+    resolver_ipv6             = var.resolver_ipv6
     types_hash_max_size       = var.types_hash_max_size
     worker_connections        = var.worker_connections
     worker_processes          = var.worker_processes

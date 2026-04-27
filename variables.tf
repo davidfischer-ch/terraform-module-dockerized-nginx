@@ -261,6 +261,15 @@ variable "ips_blacklist" {
   default     = []
 }
 
+variable "resolver_ipv6" {
+  type        = bool
+  description = <<EOT
+    Enable IPv6 (AAAA) lookups in the nginx resolver.
+    Disable on IPv4-only hosts where AAAA queries hang.
+  EOT
+  default     = true
+}
+
 # Sites -------------------------------------------------------------------------------------------
 
 variable "sites" {
