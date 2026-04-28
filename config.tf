@@ -1,7 +1,10 @@
 # Main
 
 data "jinja_template" "main_config" {
-  template = "${path.module}/config/nginx.conf.j2"
+  source {
+    directory = path.module
+    template  = file("${path.module}/config/nginx.conf.j2")
+  }
   context {
     type = "json"
     data = jsonencode(local.forced_context)
@@ -25,7 +28,10 @@ resource "local_file" "main_config" {
 # Security
 
 data "jinja_template" "security_config" {
-  template = "${path.module}/config/security.conf.j2"
+  source {
+    directory = path.module
+    template  = file("${path.module}/config/security.conf.j2")
+  }
   context {
     type = "json"
     data = jsonencode(local.forced_context)

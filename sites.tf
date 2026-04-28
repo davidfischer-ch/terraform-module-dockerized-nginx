@@ -1,7 +1,10 @@
 data "jinja_template" "sites_config" {
   for_each = var.sites
 
-  template = each.value.path
+  source {
+    directory = path.root
+    template  = file(startswith(each.value.path, "/") ? each.value.path : "${path.root}/${each.value.path}")
+  }
   context {
     type = "json"
     data = jsonencode(merge(each.value, local.forced_context))
