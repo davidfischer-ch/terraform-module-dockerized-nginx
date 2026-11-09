@@ -25,19 +25,37 @@ geoip2 {{ geoip_database_directory }}/GeoLite2-Country/GeoLite2-Country.mmdb {
 
     $geoip2_data_country_code country iso_code;
     $geoip2_data_country_name country names en;
+    $geoip2_data_continent_code continent code;
 }
 
 geoip2 {{ geoip_database_directory }}/GeoLite2-City/GeoLite2-City.mmdb {
     $geoip2_data_city_name city names en;
 }
 
-map $geoip2_data_country_code $allow_visit {
+# Private addresses: the LAN and the Docker networks. They have no country.
+geo $geoip_private_client {
+    default        "";
+    127.0.0.0/8    private;
+    10.0.0.0/8     private;
+    172.16.0.0/12  private;
+    192.168.0.0/16 private;
+    ::1            private;
+    fc00::/7       private;
+}
+
+# Keyed "<private>:<continent>:<country>". Regexes match in order: private clients pass, then
+# blacklisted countries are blocked before the allowed countries and continents.
+map "$geoip_private_client:$geoip2_data_continent_code:$geoip2_data_country_code" $allow_visit {
     default {{ geoip_blocking_default }};
+    "~^private:" allow;
     {%- for country in geoip_countries_blacklist %}
-    {{ country }} block;
+    "~:{{ country }}$" block;
     {%- endfor %}
     {%- for country in geoip_countries_whitelist %}
-    {{ country }} allow;
+    "~:{{ country }}$" allow;
+    {%- endfor %}
+    {%- for continent in geoip_continents_whitelist %}
+    "~^:{{ continent }}:" allow;
     {%- endfor %}
 }
 {% endif %}

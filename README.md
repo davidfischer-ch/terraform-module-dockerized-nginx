@@ -7,7 +7,7 @@ Manage Nginx reverse proxy and virtual hosts.
 * Configuration rendered via Jinja templates
 * Automatic DH parameter generation (with DSA option for faster generation)
 * Per-site SSL certificate and basic auth management
-* Optional GeoIP-based access control with country blacklist/whitelist
+* Optional GeoIP-based access control with country blacklist/whitelist and continent whitelist
 * IP blacklist support
 
 ## Usage
@@ -95,6 +95,7 @@ data_directory/
 | `geoip_blocking_enabled` | `bool` | `false` | Enable GeoIP-based access control. |
 | `geoip_blocking_default` | `string` | `"allow"` | Default GeoIP action. |
 | `geoip_countries_blacklist` | `list(string)` | `[]` | Country codes to block. |
+| `geoip_continents_whitelist` | `list(string)` | `[]` | Continent codes to allow, except the blacklisted countries. |
 | `geoip_countries_whitelist` | `list(string)` | `[]` | Country codes to allow. |
 | `geoip_database_directory` | `string` | `null` | Host path to GeoIP MaxMind databases. |
 | `ips_blacklist` | `list(string)` | `[]` | IP addresses to block. |

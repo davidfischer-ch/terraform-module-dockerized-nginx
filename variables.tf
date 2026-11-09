@@ -243,6 +243,12 @@ variable "geoip_countries_blacklist" {
   default     = []
 }
 
+variable "geoip_continents_whitelist" {
+  type        = list(string)
+  description = "List of continent codes to allow (when geoip_blocking_default is block). The blacklisted countries stay blocked."
+  default     = []
+}
+
 variable "geoip_countries_whitelist" {
   type        = list(string)
   description = "List of country codes to allow (when geoip_blocking_default is block)."
