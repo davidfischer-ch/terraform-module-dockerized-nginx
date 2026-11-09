@@ -1,5 +1,22 @@
 # Changelog
 
+## Release v1.4.0 (2026-11-09)
+
+Diff: https://github.com/davidfischer-ch/terraform-module-dockerized-nginx/compare/1.3.0...1.4.0
+
+### Minor compatibility breaks
+
+GeoIP:
+
+* Let private addresses (LAN, Docker networks) through even when `geoip_blocking_default` is `block`
+
+### Features
+
+GeoIP:
+
+* Add `geoip_continents_whitelist` to allow whole continents, the blacklisted countries still blocked within them
+* Expose the continent code to the sites as `$geoip2_data_continent_code`
+
 ## Release v1.3.0 (2026-04-28)
 
 ### Minor compatibility breaks
