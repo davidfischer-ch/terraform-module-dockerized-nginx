@@ -1,5 +1,23 @@
 # Changelog
 
+## Release v1.5.0 (2026-11-10)
+
+Diff: https://github.com/davidfischer-ch/terraform-module-dockerized-nginx/compare/1.4.0...1.5.0
+
+### Minor compatibility breaks
+
+Networking:
+
+* Publish the HTTP and HTTPS ports on `listener_address`, `127.0.0.1` by default instead of `0.0.0.0`
+    * Set `listener_address = "0.0.0.0"` to keep them reachable from every network
+
+### Features
+
+Networking:
+
+* Add `extra_networks` to attach the container to further Docker networks, to proxy to their containers by name
+* Allow `http_port` and `https_port` to be `null`, to publish no port
+
 ## Release v1.4.0 (2026-11-09)
 
 Diff: https://github.com/davidfischer-ch/terraform-module-dockerized-nginx/compare/1.3.0...1.4.0
