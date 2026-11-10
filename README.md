@@ -69,20 +69,20 @@ data_directory/
 
 | Name | Type | Default | Description |
 |------|------|---------|-------------|
-| `identifier` | `string` | — | Unique name for resources (must match `^[a-z]+(-[a-z0-9]+)*$`). |
+| `identifier` | `string` | required | Unique name for resources (must match `^[a-z]+(-[a-z0-9]+)*$`). |
 | `enabled` | `bool` | `true` | Start or stop the container. |
 | `wait` | `bool` | `true` | Wait for the container to reach a healthy state after creation. |
-| `image_id` | `string` | — | [Nginx](https://hub.docker.com/_/nginx/tags) Docker image's ID. |
+| `image_id` | `string` | required | [Nginx](https://hub.docker.com/_/nginx/tags) Docker image's ID. |
 | `app_uid` | `number` | `0` | UID of the user running the container (default root). |
 | `app_gid` | `number` | `0` | GID of the user running the container (default root). |
 | `privileged` | `bool` | `false` | Run the container in privileged mode. |
 | `cap_add` | `set(string)` | `[]` | Linux capabilities to add (e.g. `["NET_BIND_SERVICE"]`). See [capabilities(7)](https://man7.org/linux/man-pages/man7/capabilities.7.html). |
 | `cap_drop` | `set(string)` | `[]` | Linux capabilities to drop from the container. See [capabilities(7)](https://man7.org/linux/man-pages/man7/capabilities.7.html). |
 | `hosts` | `map(string)` | `{}` | Extra `/etc/hosts` entries for the container. |
-| `network_id` | `string` | — | Docker network to attach to. |
+| `network_id` | `string` | required | Docker network to attach to. |
 | `https_port` | `number` | `443` | HTTPS bind port. |
 | `http_port` | `number` | `80` | HTTP bind port. |
-| `data_directory` | `string` | — | Host path for persistent volumes. |
+| `data_directory` | `string` | required | Host path for persistent volumes. |
 | `extra_volumes` | `map(object)` | `{}` | Extra volumes to mount in the container. |
 | `error_log_level` | `string` | `"warn"` | Nginx error log level. |
 | `modules` | `list(string)` | `[]` | Nginx modules to enable. |
@@ -99,7 +99,7 @@ data_directory/
 | `geoip_countries_whitelist` | `list(string)` | `[]` | Country codes to allow. |
 | `geoip_database_directory` | `string` | `null` | Host path to GeoIP MaxMind databases. |
 | `ips_blacklist` | `list(string)` | `[]` | IP addresses to block. |
-| `sites` | — | — | Virtual host configurations (site-specific Jinja templates). |
+| `sites` | `any` | required | Virtual host configurations (site-specific Jinja templates). |
 
 ## Running as non-root
 
