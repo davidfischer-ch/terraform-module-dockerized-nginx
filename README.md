@@ -3,7 +3,8 @@
 Manage Nginx reverse proxy and virtual hosts.
 
 * Runs in bridge networking mode
-* Exposes HTTPS and HTTP ports
+* Publishes its HTTPS and HTTP ports on loopback by default, or on the address given, or none
+* Joins extra networks, to proxy to containers by name
 * Configuration rendered via Jinja templates
 * Automatic DH parameter generation (with DSA option for faster generation)
 * Per-site SSL certificate and basic auth management
@@ -80,8 +81,10 @@ data_directory/
 | `cap_drop` | `set(string)` | `[]` | Linux capabilities to drop from the container. See [capabilities(7)](https://man7.org/linux/man-pages/man7/capabilities.7.html). |
 | `hosts` | `map(string)` | `{}` | Extra `/etc/hosts` entries for the container. |
 | `network_id` | `string` | required | Docker network to attach to. |
-| `https_port` | `number` | `443` | HTTPS bind port. |
-| `http_port` | `number` | `80` | HTTP bind port. |
+| `extra_networks` | `list(object({ id = string }))` | `[]` | Further Docker networks to attach to (a `docker_network` resource or data source), to reach their containers by name. |
+| `listener_address` | `string` | `"127.0.0.1"` | Address the published ports bind to. |
+| `https_port` | `number` | `443` | HTTPS bind port, `null` for none. |
+| `http_port` | `number` | `80` | HTTP bind port, `null` for none. |
 | `data_directory` | `string` | required | Host path for persistent volumes. |
 | `extra_volumes` | `map(object)` | `{}` | Extra volumes to mount in the container. |
 | `error_log_level` | `string` | `"warn"` | Nginx error log level. |
