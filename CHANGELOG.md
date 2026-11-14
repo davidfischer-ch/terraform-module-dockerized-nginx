@@ -1,5 +1,23 @@
 # Changelog
 
+## Release v1.6.0 (2026-11-14)
+
+Diff: https://github.com/davidfischer-ch/terraform-module-dockerized-nginx/compare/1.5.0...1.6.0
+
+### Minor compatibility breaks
+
+GeoIP:
+
+* Read `GeoLite2-Country.mmdb` and `GeoLite2-City.mmdb` directly in `geoip_database_directory`, no longer in a subfolder per edition
+    * Move the files up one level, or point the variable at the folder `geoipupdate` writes
+
+### Fix and enhancements
+
+GeoIP:
+
+* Stop the plan when blocking is on and either database is missing from `geoip_database_directory`
+* Reload the City database within five minutes of its replacement, like the Country one
+
 ## Release v1.5.0 (2026-11-10)
 
 Diff: https://github.com/davidfischer-ch/terraform-module-dockerized-nginx/compare/1.4.0...1.5.0
