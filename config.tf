@@ -12,8 +12,17 @@ data "jinja_template" "main_config" {
 
   lifecycle {
     precondition {
-      condition     = !var.geoip_blocking_enabled || var.geoip_database_directory != null
-      error_message = "GeoIP database directory must be defined when enabled."
+      condition = !var.geoip_blocking_enabled || (
+        var.geoip_database_directory != null ? alltrue([
+          for edition in ["GeoLite2-Country", "GeoLite2-City"] :
+          fileexists("${var.geoip_database_directory}/${edition}.mmdb")
+        ]) : false
+      )
+      error_message = join("", [
+        "GeoIP blocking needs GeoLite2-Country.mmdb and GeoLite2-City.mmdb in ",
+        "`geoip_database_directory` (${coalesce(var.geoip_database_directory, "undefined")}): ",
+        "the updater writing them must have run first."
+      ])
     }
   }
 }

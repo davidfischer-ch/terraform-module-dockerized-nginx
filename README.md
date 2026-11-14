@@ -100,7 +100,7 @@ data_directory/
 | `geoip_countries_blacklist` | `list(string)` | `[]` | Country codes to block. |
 | `geoip_continents_whitelist` | `list(string)` | `[]` | Continent codes to allow, except the blacklisted countries. |
 | `geoip_countries_whitelist` | `list(string)` | `[]` | Country codes to allow. |
-| `geoip_database_directory` | `string` | `null` | Host path to GeoIP MaxMind databases. |
+| `geoip_database_directory` | `string` | `null` | Host path holding `GeoLite2-Country.mmdb` and `GeoLite2-City.mmdb`. |
 | `ips_blacklist` | `list(string)` | `[]` | IP addresses to block. |
 | `sites` | `any` | required | Virtual host configurations (site-specific Jinja templates). |
 

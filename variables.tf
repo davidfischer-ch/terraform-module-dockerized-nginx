@@ -279,7 +279,7 @@ variable "geoip_countries_whitelist" {
 
 variable "geoip_database_directory" {
   type        = string
-  description = "Directory containing MaxMind GeoIP2 database files."
+  description = "Directory holding `GeoLite2-Country.mmdb` and `GeoLite2-City.mmdb`."
   default     = null
 }
 

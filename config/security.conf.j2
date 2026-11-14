@@ -19,7 +19,7 @@ deny {{ ip }};
 ###################################################################
 ## Extra: https://stackoverflow.com/questions/64071451
 
-geoip2 {{ geoip_database_directory }}/GeoLite2-Country/GeoLite2-Country.mmdb {
+geoip2 {{ geoip_database_directory }}/GeoLite2-Country.mmdb {
     auto_reload 5m;
     $geoip2_metadata_country_build metadata build_epoch;
 
@@ -28,7 +28,8 @@ geoip2 {{ geoip_database_directory }}/GeoLite2-Country/GeoLite2-Country.mmdb {
     $geoip2_data_continent_code continent code;
 }
 
-geoip2 {{ geoip_database_directory }}/GeoLite2-City/GeoLite2-City.mmdb {
+geoip2 {{ geoip_database_directory }}/GeoLite2-City.mmdb {
+    auto_reload 5m;
     $geoip2_data_city_name city names en;
 }
 
