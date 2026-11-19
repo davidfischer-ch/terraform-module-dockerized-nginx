@@ -56,7 +56,7 @@ variable "privileged" {
 variable "cap_add" {
   type        = set(string)
   description = <<EOT
-    Linux capabilities to add to the container.
+    Linux capabilities to add to the container, `ALL` for every one.
     Use ["NET_BIND_SERVICE"] together with a non-root app_uid/app_gid
     to allow binding ports 80/443 without running as root.
   EOT
@@ -69,7 +69,7 @@ variable "cap_add" {
 
 variable "cap_drop" {
   type        = set(string)
-  description = "Linux capabilities to drop from the container."
+  description = "Linux capabilities to drop from the container, `ALL` for every one."
   default     = []
   validation {
     condition     = length(setsubtract(var.cap_drop, local.linux_capabilities)) == 0
