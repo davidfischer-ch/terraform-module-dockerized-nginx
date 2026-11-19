@@ -51,6 +51,15 @@ resource "docker_container" "server" {
 
   hostname = var.identifier
 
+  # Digest of each site's certificate and key, to replace the container when they are renewed.
+  dynamic "labels" {
+    for_each = var.sites
+    content {
+      label = "nginx.sites-ssl.${labels.value.name}"
+      value = sha256("${labels.value.ssl_crt}\n${labels.value.ssl_key}")
+    }
+  }
+
   networks_advanced {
     name = var.network_id
   }

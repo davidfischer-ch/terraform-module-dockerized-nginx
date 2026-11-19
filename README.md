@@ -10,6 +10,7 @@ Manage Nginx reverse proxy and virtual hosts.
 * Per-site SSL certificate and basic auth management
 * Optional GeoIP-based access control with country blacklist/whitelist and continent whitelist
 * IP blacklist support
+* Replaced when a site's certificate or key changes
 
 ## Usage
 
