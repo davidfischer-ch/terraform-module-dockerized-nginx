@@ -161,8 +161,13 @@ variable "error_log_level" {
   default     = "warn"
 
   validation {
-    condition     = contains(["debug", "info", "notice", "warn", "error", "crit", "alert", "emerg"], var.error_log_level)
-    error_message = "Argument `error_log_level` must be one of: debug, info, notice, warn, error, crit, alert, emerg."
+    condition = contains(
+      ["debug", "info", "notice", "warn", "error", "crit", "alert", "emerg"], var.error_log_level
+    )
+    error_message = join(" ", [
+      "Argument `error_log_level` must be one of:",
+      "debug, info, notice, warn, error, crit, alert, emerg.",
+    ])
   }
 }
 
@@ -170,7 +175,9 @@ variable "error_log_level" {
 
 variable "modules" {
   type        = list(string)
-  description = "Modules to enable. The GeoIP module is loaded automatically based on `geoip_blocking_enabled`."
+  description = <<-EOT
+    Modules to enable. The GeoIP module is loaded automatically based on `geoip_blocking_enabled`.
+  EOT
   default     = []
 }
 
@@ -267,7 +274,10 @@ variable "geoip_countries_blacklist" {
 
 variable "geoip_continents_whitelist" {
   type        = list(string)
-  description = "List of continent codes to allow (when geoip_blocking_default is block). The blacklisted countries stay blocked."
+  description = <<-EOT
+    List of continent codes to allow (when geoip_blocking_default is block). The blacklisted
+    countries stay blocked.
+  EOT
   default     = []
 }
 

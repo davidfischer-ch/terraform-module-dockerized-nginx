@@ -3,7 +3,9 @@ data "jinja_template" "sites_config" {
 
   source {
     directory = path.root
-    template  = file(startswith(each.value.path, "/") ? each.value.path : "${path.root}/${each.value.path}")
+    template = file(
+      startswith(each.value.path, "/") ? each.value.path : "${path.root}/${each.value.path}"
+    )
   }
   context {
     type = "json"

@@ -54,11 +54,14 @@ module "reverse_proxy" {
       address = "my-app"
       port    = 8000
 
-      redirect_ssl  = true
-      with_dhparam  = true
-      with_http2    = true
-      with_ssl      = true
-      ssl_crt       = join("", [acme_certificate.my_app.certificate_pem, acme_certificate.my_app.issuer_pem])
+      redirect_ssl = true
+      with_dhparam = true
+      with_http2   = true
+      with_ssl     = true
+      ssl_crt = join("", [
+        acme_certificate.my_app.certificate_pem,
+        acme_certificate.my_app.issuer_pem,
+      ])
       ssl_key       = acme_certificate.my_app.private_key_pem
       max_body_size = "20M"
     }

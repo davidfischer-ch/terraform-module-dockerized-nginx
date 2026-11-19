@@ -55,6 +55,7 @@ module "reverse_proxy" {
 }
 ```
 
+
 ## Data layout
 
 All persistent data lives under `data_directory`:
@@ -65,6 +66,7 @@ data_directory/
 ├── config/  # Generated configuration (nginx.conf, conf.d/, sites-enabled/, SSL, dhparam)
 └── logs/    # Nginx access and error logs
 ```
+
 
 ## Variables
 
@@ -103,6 +105,7 @@ data_directory/
 | `geoip_database_directory` | `string` | `null` | Host path holding `GeoLite2-Country.mmdb` and `GeoLite2-City.mmdb`. |
 | `ips_blacklist` | `list(string)` | `[]` | IP addresses to block. |
 | `sites` | `any` | required | Virtual host configurations (site-specific Jinja templates). |
+
 
 ## Running as non-root
 
