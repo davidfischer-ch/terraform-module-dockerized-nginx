@@ -124,7 +124,7 @@ module "reverse_proxy" {
 
 ## Requirements
 
-* Terraform >= 1.6
+* Terraform >= 1.17
 * [kreuzwerker/docker](https://github.com/kreuzwerker/terraform-provider-docker) >= 3.0.2
 * [NikolaLohinski/jinja](https://github.com/NikolaLohinski/terraform-provider-jinja) >= 1.17.0
 * [hashicorp/local](https://github.com/hashicorp/terraform-provider-local) >= 2.2.3
