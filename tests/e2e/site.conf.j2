@@ -1,0 +1,9 @@
+server {
+    listen {{ http_internal_port|int }};
+    server_name {{ domains | join(" ") }};
+
+    location / {
+        default_type text/plain;
+        return 200 "{{ message }}\n";
+    }
+}

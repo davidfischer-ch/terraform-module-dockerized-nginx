@@ -153,6 +153,37 @@ their text without running a shell, and cover neither the images' behaviour nor 
 planned from an existing state. They run on every push, in the GitHub workflow (with the newest
 providers and with their minimums) and in the GitLab pipeline.
 
+`tests/e2e/run.sh` applies the module against a real Docker daemon, checks the healthcheck and the
+site it serves, runs both actions on a changed and on a broken configuration, then destroys
+everything. The GitHub workflow and the GitLab pipeline run it on nginx 1.28; locally, as root:
+
+```bash
+E2E_IMAGE=nginx:1.28.0 sh tests/e2e/run.sh
+```
+
+The Docker daemon must see the data directory at the same path: set `E2E_DATA_DIRECTORY` to a
+directory on a filesystem both share when Terraform runs in a container of its own.
+
+
+## Actions
+
+On-demand operations on the server. Each runs only when invoked, never during an ordinary `apply`,
+and leaves nothing in the state:
+
+```bash
+terraform apply -invoke='module.reverse_proxy.action.docker_exec.<action>'
+```
+
+Replace `module.reverse_proxy` with the module's address.
+
+| Action | What it does | When |
+|--------|--------------|------|
+| `test` | `nginx -t`: the configuration checked, its syntax and the files it names | Before a reload, after editing a file by hand |
+| `reload` | `nginx -s reload`: the configuration loaded again, the container kept; a configuration nginx cannot read fails it and leaves the running one | After an apply rewrote a site file without replacing the container |
+
+An apply replaces the container when a site's configuration changes in Terraform, which loads it.
+A file rewritten by an apply after a change on disk replaces nothing: `reload` loads it.
+
 
 ## References
 
