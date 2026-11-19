@@ -1,5 +1,47 @@
 # Changelog
 
+
+## Release v1.6.1 (2026-11-19)
+
+Diff: https://github.com/davidfischer-ch/terraform-module-dockerized-nginx/compare/1.6.0...1.6.1
+
+### Features
+
+Server:
+
+* Add a healthcheck on the master process and its `healthcheck_enabled` input
+    * `wait` requires the healthcheck: `wait = true` with `healthcheck_enabled = false` fails the plan
+
+Actions:
+
+* Add `test` and `reload` actions, checking and loading the configuration without recreating the container
+
+CI:
+
+* Add CI: formatting, validation and the tests, in the GitHub workflow (with the newest providers and their minimums) and in the GitLab pipeline
+* Add an end-to-end test of the module and its actions against a real Docker daemon, on nginx 1.28
+
+### Fix and enhancements
+
+Server:
+
+* Replace the container when a site's certificate or key is renewed, through a digest label per site
+    * The container is replaced once on upgrade, and at each renewal from then on
+* Start nginx as a non-root `app_uid`, owner of the cache and logs directories, of each site's logs and of its certificate and key
+* Quote the host paths of the shell commands
+* Pass `ALL` in `cap_add` and `cap_drop` to Docker as its wildcard instead of `CAP_ALL`
+
+Requirements:
+
+* Require Terraform 1.17
+* Require the Docker provider 4.7.0
+
+Docs:
+
+* Document `ALL` in `cap_add` and `cap_drop`
+* Point the README and the examples at this release
+
+
 ## Release v1.6.0 (2026-11-14)
 
 Diff: https://github.com/davidfischer-ch/terraform-module-dockerized-nginx/compare/1.5.0...1.6.0
