@@ -10,7 +10,9 @@ Manage Nginx reverse proxy and virtual hosts.
 * Per-site SSL certificate and basic auth management
 * Optional GeoIP-based access control with country blacklist/whitelist and continent whitelist
 * IP blacklist support
+* Healthcheck on the master process
 * Replaced when a site's certificate or key changes
+
 
 ## Usage
 
@@ -75,7 +77,8 @@ data_directory/
 |------|------|---------|-------------|
 | `identifier` | `string` | required | Unique name for resources (must match `^[a-z]+(-[a-z0-9]+)*$`). |
 | `enabled` | `bool` | `true` | Start or stop the container. |
-| `wait` | `bool` | `true` | Wait for the container to reach a healthy state after creation. |
+| `wait` | `bool` | `true` | Wait for the container to reach a healthy state after creation (needs `healthcheck_enabled`). |
+| `healthcheck_enabled` | `bool` | `true` | Enable the healthcheck (the nginx master process is running). |
 | `image_id` | `string` | required | [Nginx](https://hub.docker.com/_/nginx/tags) Docker image's ID. |
 | `app_uid` | `number` | `0` | UID of the user running the container (default root). |
 | `app_gid` | `number` | `0` | GID of the user running the container (default root). |
@@ -135,6 +138,21 @@ run as root.
 * [NikolaLohinski/jinja](https://github.com/NikolaLohinski/terraform-provider-jinja) >= 1.17.0
 * [hashicorp/local](https://github.com/hashicorp/terraform-provider-local) >= 2.2.3
 * [hashicorp/null](https://github.com/hashicorp/terraform-provider-null) >= 3.2.2
+
+
+## Tests
+
+```bash
+terraform init -backend=false
+terraform test
+```
+
+`terraform test` needs Terraform >= 1.17, the module's own floor. The tests plan against mocked
+providers: they assert the healthcheck, the certificate digest labels and the ownership command on
+their text without running a shell, and cover neither the images' behaviour nor a replacement
+planned from an existing state. They run on every push, in the GitHub workflow (with the newest
+providers and with their minimums) and in the GitLab pipeline.
+
 
 ## References
 

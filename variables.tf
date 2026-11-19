@@ -16,7 +16,13 @@ variable "enabled" {
 
 variable "wait" {
   type        = bool
-  description = "Wait for the container to reach an healthy state after creation."
+  description = "Wait for the container to reach a healthy state after creation."
+  default     = true
+}
+
+variable "healthcheck_enabled" {
+  type        = bool
+  description = "Enable the healthcheck (the nginx master process is running)?"
   default     = true
 }
 

@@ -8,6 +8,11 @@ resource "docker_container" "server" {
   ]
 
   lifecycle {
+    precondition {
+      condition     = !var.wait || var.healthcheck_enabled
+      error_message = "Argument `healthcheck_enabled` must be true when `wait` is true."
+    }
+
     replace_triggered_by = [
       local_file.main_config,
       local_file.security_config,
@@ -24,6 +29,21 @@ resource "docker_container" "server" {
   start    = var.enabled
   restart  = "always"
   wait     = var.wait
+
+  # Healthy while the master process named by the PID file runs, whatever the upstreams respond.
+  dynamic "healthcheck" {
+    for_each = var.healthcheck_enabled ? [1] : []
+    content {
+      test = [
+        "CMD-SHELL",
+        "test -f \"$NGINX_PID_FILE\" && kill -0 \"$(cat \"$NGINX_PID_FILE\")\""
+      ]
+      interval     = "10s"
+      timeout      = "3s"
+      retries      = 3
+      start_period = "5s"
+    }
+  }
 
   privileged = var.privileged
 
