@@ -122,6 +122,11 @@ module "reverse_proxy" {
 }
 ```
 
+The module gives that user the cache and logs directories, each site's logs directory and each
+site's certificate and key (written `0600`). Changing the owner to another user needs Terraform to
+run as root.
+
+
 ## Requirements
 
 * Terraform >= 1.17

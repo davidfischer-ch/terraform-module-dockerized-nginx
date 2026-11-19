@@ -2,6 +2,8 @@ resource "docker_container" "server" {
 
   depends_on = [
     local_file.sites_logs_touch,
+    local_sensitive_file.sites_ssl_crt,
+    local_sensitive_file.sites_ssl_key,
     terraform_data.data_directories
   ]
 

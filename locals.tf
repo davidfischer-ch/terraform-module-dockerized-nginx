@@ -3,9 +3,43 @@ locals {
   container_config_directory = "/etc/nginx"
   container_logs_directory   = "/var/log/nginx"
 
-  host_cache_directory  = "${var.data_directory}/cache"
-  host_config_directory = "${var.data_directory}/config"
-  host_logs_directory   = "${var.data_directory}/logs"
+  host_cache_directory   = "${var.data_directory}/cache"
+  host_config_directory  = "${var.data_directory}/config"
+  host_dhparam_directory = "${local.host_config_directory}/sites-dhparam"
+  host_logs_directory    = "${var.data_directory}/logs"
+
+  # The user running nginx owns the directories it writes in and the site keys it reads. Each path
+  # is one single-quoted shell word, whatever characters it holds.
+  directories_command = join("\n", concat(["set -e"], [
+    for line in concat(
+      [
+        {
+          command = "mkdir -p"
+          paths   = [local.host_cache_directory, local.host_logs_directory]
+        },
+        {
+          command = "chown -R ${var.app_uid}:${var.app_gid}"
+          paths   = [local.host_cache_directory, local.host_logs_directory]
+        },
+      ],
+      flatten([
+        for site in values(var.sites) : [
+          {
+            command = "chown -R ${var.app_uid}:${var.app_gid}"
+            paths   = ["${local.host_logs_directory}/${site.name}"]
+          },
+          {
+            command = "chown ${var.app_uid}:${var.app_gid}"
+            paths = [
+              "${local.host_config_directory}/sites-ssl/${site.name}.crt",
+              "${local.host_config_directory}/sites-ssl/${site.name}.key",
+            ]
+          },
+        ]
+      ])
+    ) :
+    join(" ", concat([line.command], [for path in line.paths : "'${replace(path, "'", "'\\''")}'"]))
+  ]))
 
   forced_context = {
     app_uid                    = var.app_uid

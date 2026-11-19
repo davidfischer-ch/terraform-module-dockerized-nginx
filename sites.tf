@@ -25,11 +25,12 @@ resource "local_file" "sites_config" {
 resource "null_resource" "sites_dhparam" {
   for_each = var.sites
 
+  # Each path is one single-quoted shell word, whatever characters it holds.
   provisioner "local-exec" {
     command = join(" ", compact([
-      "mkdir -p ${local.host_config_directory}/sites-dhparam/ &&",
+      "mkdir -p '${replace(local.host_dhparam_directory, "'", "'\\''")}' &&",
       "openssl dhparam", var.dhparam_use_dsa ? "-dsaparam" : "",
-      "-out ${local.host_config_directory}/sites-dhparam/${each.value.name}.pem",
+      "-out '${replace("${local.host_dhparam_directory}/${each.value.name}.pem", "'", "'\\''")}'",
       var.dhparam_bits
     ]))
   }
