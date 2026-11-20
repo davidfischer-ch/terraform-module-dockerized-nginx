@@ -118,6 +118,14 @@ tf apply -auto-approve > /dev/null
 expect 'the healthcheck reports the server healthy' \
   "$(docker inspect -f '{{.State.Health.Status}}' "${CONTAINER}")" healthy
 expect 'the site is served' "$(page)" served
+
+# A temporary-file directory the workers created stays theirs when the directories' provisioner
+# runs again.
+docker exec -u nginx "${CONTAINER}" mkdir -p /var/cache/nginx/proxy_temp/1/00
+tf apply -auto-approve -replace=module.nginx.terraform_data.data_directories > /dev/null
+expect 'the workers keep the cache directories they created' \
+  "$(docker exec "${CONTAINER}" stat -c %U /var/cache/nginx/proxy_temp/1/00)" nginx
+
 invoke test
 
 before=$(container_id)

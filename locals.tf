@@ -8,8 +8,10 @@ locals {
   host_dhparam_directory = "${local.host_config_directory}/sites-dhparam"
   host_logs_directory    = "${var.data_directory}/logs"
 
-  # The user running nginx owns the directories it writes in and the site keys it reads. Each path
-  # is one single-quoted shell word, whatever characters it holds.
+  # The user running nginx owns the directories it writes in and the site keys it reads. Under a
+  # root master, the workers run as the image's nginx user and own the cache's contents: the cache
+  # directory alone is handed over. The walk of the live cache comes last, after the site keys.
+  # Each path is one single-quoted shell word, whatever characters it holds.
   directories_command = join("\n", concat(["set -e"], [
     for line in concat(
       [
@@ -19,7 +21,7 @@ locals {
         },
         {
           command = "chown -R ${var.app_uid}:${var.app_gid}"
-          paths   = [local.host_cache_directory, local.host_logs_directory]
+          paths   = [local.host_logs_directory]
         },
       ],
       flatten([
@@ -36,7 +38,13 @@ locals {
             ]
           },
         ]
-      ])
+      ]),
+      [
+        {
+          command = "chown${var.app_uid == 0 ? "" : " -R"} ${var.app_uid}:${var.app_gid}"
+          paths   = [local.host_cache_directory]
+        },
+      ],
     ) :
     join(" ", concat([line.command], [for path in line.paths : "'${replace(path, "'", "'\\''")}'"]))
   ]))

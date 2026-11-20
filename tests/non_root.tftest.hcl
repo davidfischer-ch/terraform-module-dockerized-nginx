@@ -51,3 +51,54 @@ run "non_root_user_owns_what_it_writes_and_reads" {
     ])
   }
 }
+
+run "non_root_user_owns_the_whole_cache" {
+  command = plan
+
+  assert {
+    condition = strcontains(
+      coalesce(terraform_data.data_directories.input, "none"),
+      "chown -R 101:101 '/data/my-app/reverse-proxy/cache'"
+    )
+    error_message = join(" ", [
+      "The cache must belong to the user running nginx down to its temporary files,",
+      "whoever wrote them before.",
+    ])
+  }
+}
+
+run "root_master_leaves_the_cache_to_its_workers" {
+  command = plan
+
+  variables {
+    app_uid = 0
+    app_gid = 0
+    cap_add = []
+  }
+
+  assert {
+    condition = !strcontains(
+      coalesce(terraform_data.data_directories.input, "none"),
+      "chown -R 0:0 '/data/my-app/reverse-proxy/cache'"
+    )
+    error_message = join(" ", [
+      "Under a root master, the workers run as the image's nginx user and write the cache's",
+      "temporary files: the cache's contents must not be handed to root.",
+    ])
+  }
+}
+
+run "site_keys_are_handed_over_before_the_cache_walk" {
+  command = plan
+
+  assert {
+    condition = endswith(
+      coalesce(terraform_data.data_directories.input, "none"),
+      "chown -R 101:101 '/data/my-app/reverse-proxy/cache'"
+    )
+    error_message = join(" ", [
+      "The walk of the live cache must come last: a file nginx removes during it fails the",
+      "script, which must have handed the site's certificate and key over already.",
+    ])
+  }
+}

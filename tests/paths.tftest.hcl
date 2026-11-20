@@ -30,13 +30,14 @@ run "directories_reach_the_shell_as_one_word_each" {
     condition = local.directories_command == join("\n", [
       "set -e",
       "mkdir -p '/data/a proxy'\\''s; id/cache' '/data/a proxy'\\''s; id/logs'",
-      "chown -R 0:0 '/data/a proxy'\\''s; id/cache' '/data/a proxy'\\''s; id/logs'",
+      "chown -R 0:0 '/data/a proxy'\\''s; id/logs'",
       "chown -R 0:0 '/data/a proxy'\\''s; id/logs/my-app'",
       join(" ", [
         "chown 0:0",
         "'/data/a proxy'\\''s; id/config/sites-ssl/my-app.crt'",
         "'/data/a proxy'\\''s; id/config/sites-ssl/my-app.key'",
       ]),
+      "chown 0:0 '/data/a proxy'\\''s; id/cache'",
     ])
     error_message = "Each path must reach the shell as one single-quoted word."
   }
