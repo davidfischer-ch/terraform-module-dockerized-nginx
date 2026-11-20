@@ -1,6 +1,19 @@
 # Changelog
 
 
+## Release v1.6.2 (2026-11-20)
+
+Diff: https://github.com/davidfischer-ch/terraform-module-dockerized-nginx/compare/1.6.1...1.6.2
+
+### Fix and enhancements
+
+Server:
+
+* Fix the large proxied responses and request bodies cut under a root master: the cache directory alone is handed to `app_uid`, its contents staying with the workers
+    * A 1.6.1 apply under `app_uid = 0` handed the cache's level directories to root: chown them back to the image's `nginx` user once by hand (`chown -R 101:101 <data_directory>/cache/*_temp`)
+* Hand each site's certificate and key to `app_uid` before walking the cache, which a file nginx removes meanwhile can no longer leave root-owned
+
+
 ## Release v1.6.1 (2026-11-19)
 
 Diff: https://github.com/davidfischer-ch/terraform-module-dockerized-nginx/compare/1.6.0...1.6.1
